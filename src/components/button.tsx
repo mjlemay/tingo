@@ -19,7 +19,7 @@ interface MenuItemProps {
       >
         {(prefix && 
             <div 
-                className='flex grow-0 items-center justify-center min-w-8 max-w-8 w-8 min-h-8 max-h-8 h-8'>
+                className='flex grow-0 pr-1 justify-center min-w-[24px] max-w-[24px] w-[24px] min-h-[24px] max-h-[24px] h-[24px]'>
                 {prefix}
             </div>
         )}
@@ -27,7 +27,7 @@ interface MenuItemProps {
             <span className='inline-block text-xl leading-loose truncate ...'>{label || children}</span>
         </div>
         {(suffix && <div 
-            className='flex grow-0 items-center justify-center min-w-8 max-w-8 w-8 min-h-8 max-h-8 h-8'>
+            className='flex grow-0 justify-center pl-1 min-w-[24px] max-w-[24px] w-[24px] min-h-[24px] max-h-[24px] h-[24px]'>
                 {suffix}
             </div>
         )}

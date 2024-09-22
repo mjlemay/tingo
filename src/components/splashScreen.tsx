@@ -6,9 +6,6 @@ import { projectData } from '../services/projectService.ts';
 import Card from './card.tsx';
 import ImageButton from './imageButton.tsx';
 import Block from './block.tsx';
-import CappyParty from '../svg/cappyParty.tsx';
-import CappySport from '../svg/cappySport.tsx';
-import CappyCalendar from '../svg/cappyCalendar.tsx';
 import { BackpackIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 interface SplashScreenProps {
