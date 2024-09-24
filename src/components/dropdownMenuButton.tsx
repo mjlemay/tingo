@@ -24,7 +24,7 @@ export default function DropdownMenuButton(props:DropdownMenuButtonProps):JSX.El
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
-          className="w-[40px] h-[40px] inline-flex items-center justify-center cursor-pointer rounded-lg border-2 border-solid border-gray-800 outline-none"
+          className="w-[40px] h-[40px] inline-flex p-0 background-transparent border-none items-center justify-center cursor-pointer rounded-lg border-2 border-solid border-gray-800 outline-none"
           aria-label="Customise options"
         >
           <HamburgerMenuIcon />

@@ -23,7 +23,7 @@ export default function MoreMenuButton(props:MoreMenuButtonProps):JSX.Element {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
-          className="w-[40px] h-[40px] inline-flex items-center justify-center cursor-pointer outline-none"
+          className="w-[40px] h-[40px] inline-flex p-0 items-center justify-center cursor-pointer bg-transparent border-none outline-none"
           aria-label="More options"
         >
           <DotsVerticalIcon />

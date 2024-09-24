@@ -26,7 +26,7 @@ export default function Modal(props:ModalProps):JSX.Element {
 
     const closeBtn = (
         <button
-            className="w-[40px] h-[40px] inline-flex items-center justify-center cursor-pointer outline-none"
+            className="w-[40px] h-[40px] p-0 inline-flex items-center justify-center border-none cursor-pointer outline-none bg-transparent"
             aria-label="Close"
             onClick={() => closeHandler()}
         >

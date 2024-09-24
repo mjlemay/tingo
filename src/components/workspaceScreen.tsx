@@ -10,7 +10,7 @@ import { defaultProject, basicProjectType } from '../constants/defaults';
 import TabHeaders from './tabheaders';
 import { BackpackIcon } from '@radix-ui/react-icons';
 import PlayBookView from './playBookView';
-
+import { projectData } from '../services/projectService.ts';
 
 
 interface WorkspaceScreenProps {
