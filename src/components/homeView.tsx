@@ -36,10 +36,10 @@ export default function HomeView(props:HomeViewProps):JSX.Element {
         <Block title="Recent Projects" icon={<BackpackIcon width={20} height={20} />}>
               <div className="flex flex-col">
                 <div>
-                {projects && projects.map(project => {
+                {projects && projects.map((project, index) => {
                   return (
                     <MenuItem 
-                      key={`$_item_${project.name}`}
+                      key={`$_item_${index}_${project.name}`}
                       label={project.name} 
                       prefix={<BackpackIcon />}
                       handleAction={() => actionHandler('screen', 'workspace', project)}
