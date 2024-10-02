@@ -8,9 +8,13 @@ import ConfirmationForm from './confirmationForm';
 import { textCopy } from '../constants/language';
 import { defaultProject, basicProjectType } from '../constants/defaults';
 import TabHeaders from './tabheaders';
-import { BackpackIcon } from '@radix-ui/react-icons';
+import { 
+  BackpackIcon,
+  FileTextIcon
+} from '@radix-ui/react-icons';
 import PlayBookView from './playBookView';
 import { projectData } from '../services/projectService.ts';
+import MenuItem from './menuItem.tsx';
 
 
 interface WorkspaceScreenProps {
@@ -71,7 +75,13 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
           <div data-name="sidebar" className="min-w-[250px]">
             <Card>
               <Block title="Rulebooks" icon={<RuleIcon />} >
-              <span>Core Rules</span>
+              <MenuItem 
+                key={`placeholder_key`}
+                label={"Core Rules"} 
+                prefix={<FileTextIcon />}
+                handleAction={() => {}}
+              />
+              {/* todo: add new element button */}
               </Block>
             </Card>
           </div>

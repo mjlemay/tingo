@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div
-    className={`flex w-screen bg-neutral-900 text-white`}
+    className={`flex w-screen bg-neutral-900 text-white select-none`}
     data-theme={"darkTheme"}
   >
     <SideMenuBar screenActionHandler={handleAction}  />
