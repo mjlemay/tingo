@@ -23,10 +23,14 @@ const nodeTypes = {
 };
 
 const initialNodes = [
-  { id: '1', type: 'custom', data: { label: 'Node 1' }, style: {color: 'black'}, position: { x: 100, y: 100 } },
-  { id: '2', type: 'custom', data: { label: 'Node 2' }, style: {color: 'black'}, position: { x: 400, y: 100 } },
+  { id: '1', type: 'custom', data: { label: 'Node 1', format: 'input' }, style: {color: 'black'}, position: { x: 100, y: 100 } },
+  { id: '2', type: 'custom', data: { label: 'Node 2', format: 'action' }, style: {color: 'black'}, position: { x: 400, y: 100 } },
+  { id: '3', type: 'custom', data: { label: 'Node 3', format: 'output' }, style: {color: 'black'}, position: { x: 700, y: 100 } },
   ];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+const initialEdges = [
+  { id: 'e1-2', source: '1', target: '2' },
+  { id: 'e2-3', source: '2', target: '3' }
+];
   
 export default function FlowGraph(props:FlowGraphProps):JSX.Element {
   const { height = "100%", width = "100%" } = props;
