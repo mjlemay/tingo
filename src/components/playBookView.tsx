@@ -29,7 +29,7 @@ const [commandCount, setCommandCount] = useState(0);
         },
         {
             icon: <CodeIcon />,
-            value: 'function',
+            value: 'action',
         },
         {
             icon: <ExitIcon />,

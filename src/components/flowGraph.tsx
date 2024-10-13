@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { 
   ReactFlow,
   Controls,
@@ -6,11 +6,13 @@ import {
   addEdge,
   useNodesState,
   useEdgesState,
+  useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/base.css';
 
 
 import FGNode from './flowGraphNode';
+import EventEmitter from 'events';
 
 interface FlowGraphProps {
   height?: string;
@@ -35,18 +37,35 @@ const initialEdges = [
   
 export default function FlowGraph(props:FlowGraphProps):JSX.Element {
   const { height = "100%", width = "100%", latestCommand = '' } = props;
-  const [nodes, _, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodeIDCount, setNodeIDCount] = useState(initialNodes.length + 1)
+  const { screenToFlowPosition } = useReactFlow();
 
   const onConnect = useCallback(
     //todo  write out this as a proper type --- edgeParams: EdgeType | Connection, edges: EdgeType[]
     (params: any) => setEdges((eds) => addEdge(params, eds)),
     [],
   );
-
-  const createNode = (format:string) => {
-    console.log('format', format);
-  }
+  const createNode = useCallback(
+    (formatValue:string) => {
+      const newNodeCount = nodeIDCount + 1;
+      setNodeIDCount(newNodeCount);
+      const position = screenToFlowPosition({
+        x: 500,
+        y: 300,
+      });
+      const newNode = {
+        id: `Node_${nodeIDCount}`,
+        type: 'custom',
+        position,
+        style: { color: 'black'},
+        data: { label: `Node ${nodeIDCount}`, format: formatValue },
+      };
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [nodeIDCount],
+  );
 
   useEffect(()=> {
     if (latestCommand !== '') {

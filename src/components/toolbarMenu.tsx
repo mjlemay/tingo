@@ -19,8 +19,6 @@ export default function ToolbarMenu(props:ToolbarMenuProps):JSX.Element {
   const { label = '', children, toolbarMenuItems = [], menuHandler = ()=>{} } = props;
 
   const clickHandler = (value:string) => {
-    console.log('click handler', value);
-    console.log('menuHandler', menuHandler);
     menuHandler(value)
   }
   
