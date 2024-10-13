@@ -2,10 +2,6 @@ import Database from '@tauri-apps/plugin-sql';
 import { drizzle } from 'drizzle-orm/sqlite-proxy';
 import * as schema from '../constants/dbSchema.ts';
 
-type SelectQueryResult = {
-    [key: string]: any;
-};
-
 function isSelectQuery(sql: string): boolean {
     const selectRegex = /^\s*SELECT\b/i;
     return selectRegex.test(sql);

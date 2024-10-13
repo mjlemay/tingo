@@ -30,7 +30,7 @@ const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
   
 export default function FlowGraph(props:FlowGraphProps):JSX.Element {
   const { height = "100%", width = "100%" } = props;
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, _, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(

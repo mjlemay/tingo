@@ -1,4 +1,4 @@
-import React, { memo, ReactElement } from 'react';
+import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import {
     GearIcon,
