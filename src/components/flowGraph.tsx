@@ -9,10 +9,7 @@ import {
   useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/base.css';
-
-
 import FGNode from './flowGraphNode';
-import EventEmitter from 'events';
 
 interface FlowGraphProps {
   height?: string;
@@ -22,13 +19,18 @@ interface FlowGraphProps {
 
 const snapGrid:[number, number] = [20, 20];
 const nodeTypes = {
-  custom: FGNode,
+  connection: FGNode,
 };
 
+const nodeBody = {
+  nodes:[],
+  edges: []
+}
+
 const initialNodes = [
-  { id: '1', type: 'custom', data: { label: 'Node 1', format: 'input' }, style: {color: 'black'}, position: { x: 100, y: 100 } },
-  { id: '2', type: 'custom', data: { label: 'Node 2', format: 'action' }, style: {color: 'black'}, position: { x: 400, y: 100 } },
-  { id: '3', type: 'custom', data: { label: 'Node 3', format: 'output' }, style: {color: 'black'}, position: { x: 700, y: 100 } },
+  { id: '1', type: 'connection', data: { label: 'Node 1', format: 'input' }, position: { x: 100, y: 100 } },
+  { id: '2', type: 'connection', data: { label: 'Node 2', format: 'action' }, position: { x: 400, y: 100 } },
+  { id: '3', type: 'connection', data: { label: 'Node 3', format: 'output' }, position: { x: 700, y: 100 } },
   ];
 const initialEdges = [
   { id: 'e1-2', source: '1', target: '2' },
@@ -59,7 +61,6 @@ export default function FlowGraph(props:FlowGraphProps):JSX.Element {
         id: `Node_${nodeIDCount}`,
         type: 'custom',
         position,
-        style: { color: 'black'},
         data: { label: `Node ${nodeIDCount}`, format: formatValue },
       };
       setNodes((nds) => nds.concat(newNode));
