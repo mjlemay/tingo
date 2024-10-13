@@ -52,6 +52,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
 
 
   const handleActions = (action:string, value:string, payload:basicProjectType) => {
+    console.log('action', action)
     switch (action) {
       case 'openModal':
           activateModal(value);

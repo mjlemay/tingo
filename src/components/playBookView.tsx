@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ReactFlowProvider } from '@xyflow/react';
 import { 
@@ -19,6 +19,8 @@ interface PlayBookViewProps {
 
 export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
 const { children } = props;
+const [command, setCommand] = useState('');
+const [commandCount, setCommandCount] = useState(0);
 
     const toolbarMenuItems = [
         {
@@ -35,6 +37,13 @@ const { children } = props;
         }
     ];
 
+    const menuHandler = (menuAction:string) => {
+        const latestCommandCount = commandCount + 1;
+        const latestCommand =  `${menuAction}_${latestCommandCount}`;
+        setCommand(latestCommand)
+        setCommandCount(latestCommandCount);
+    }
+
     return (
         <>
             <ColumnLayout>
@@ -43,10 +52,11 @@ const { children } = props;
                         className="m-0 p-0 overflow-auto h-full flex-start relative"
                     >
                         <ReactFlowProvider>
-                            <FlowGraph />
+                            <FlowGraph latestCommand={command} />
                         </ReactFlowProvider>
                         <ToolbarMenu
                             label='Rules Menu'
+                            menuHandler={menuHandler}
                             toolbarMenuItems={toolbarMenuItems}
                         />
                     </div>

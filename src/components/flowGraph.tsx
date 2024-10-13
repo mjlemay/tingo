@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { 
   ReactFlow,
   Controls,
@@ -15,6 +15,7 @@ import FGNode from './flowGraphNode';
 interface FlowGraphProps {
   height?: string;
   width?: string;
+  latestCommand?: string;
 }
 
 const snapGrid:[number, number] = [20, 20];
@@ -33,7 +34,7 @@ const initialEdges = [
 ];
   
 export default function FlowGraph(props:FlowGraphProps):JSX.Element {
-  const { height = "100%", width = "100%" } = props;
+  const { height = "100%", width = "100%", latestCommand = '' } = props;
   const [nodes, _, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -42,6 +43,17 @@ export default function FlowGraph(props:FlowGraphProps):JSX.Element {
     (params: any) => setEdges((eds) => addEdge(params, eds)),
     [],
   );
+
+  const createNode = (format:string) => {
+    console.log('format', format);
+  }
+
+  useEffect(()=> {
+    if (latestCommand !== '') {
+      const nodeFormat = latestCommand.split('_')[0];
+      createNode(nodeFormat);
+    }
+  }, [latestCommand]);
 
   return (
   <div style={{width, height, display:'block'}}>
