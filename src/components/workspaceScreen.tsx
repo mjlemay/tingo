@@ -33,6 +33,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
   const { selectedProject = defaultProject, screenActionHandler = ()=>{}} = props;
   const { projectId = -1 } = selectedProject;
   const [ selectedModal, setSelectedModal ] = useState('');
+  const [ selectedItem, setSelectedItem ] = useState('');
   const [ openModal, setOpenModal ] = useState(false);
   const { confirmDelete } = textCopy;
   const [ rules, setRules ] = useState(defaultRules);
@@ -46,6 +47,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
       setFetched(true);
     });
   };
+
 
   const activateModal = (modal:string) => {
     setSelectedModal(modal);
@@ -94,6 +96,12 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     }
   }
 
+  const selectedRule = () => {
+    const itemId = selectedItem && selectedItem.split('_')[1];
+    const ruleData = rules.filter(rule => rule.ruleId === parseInt(itemId)) || [];
+    return ruleData[0];
+  }
+
   useEffect(()=> {
     if (!hasFetched) {
       fetchData();
@@ -103,7 +111,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
 
   const addBtn = (
     <button
-        className="w-[40px] h-[40px] p-0 flex items-center justify-center border-none cursor-pointer outline-none bg-transparent"
+        className="w-[40px] h-[40px] p-0 flex items-center justify-center border-none cursor-pointer outline-none"
         aria-label="Add"
         onClick={() => handleActions('create', 'rule', defaultRule)}
     >
@@ -120,20 +128,16 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
           <div data-name="sidebar" className="min-w-[250px]">
             <Card>
               <Block title="Rulebooks" icon={<RuleIcon />} menu={addBtn}>
-              <MenuItem 
-                key={`placeholder_key`}
-                label={"Core Rules"} 
-                prefix={<FileTextIcon />}
-                handleAction={() => {}}
-              />
               {rules.map(rule => {
-                const { name } =rule;
+                const { name, ruleId } =rule;
+                const itemKey = `rule_${ruleId}`;
                 return (
                   <MenuItem 
-                    key={`placeholder_key`}
+                    key={itemKey}
+                    selected={selectedItem === itemKey}
                     label={name} 
                     prefix={<FileTextIcon />}
-                    handleAction={() => {}}
+                    handleAction={() => setSelectedItem(itemKey)}
                   />
                 )}
               )}
@@ -142,7 +146,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
           </div>
           <div data-name="stage" className="grow min-h-fit max-h-full rounded-lg bg-neutral-950 mt-2 mb-2 mr-2">
             {/*  Staged elements here */}
-            <PlayBookView />
+            <PlayBookView ruleItem={selectedRule()} />
           </div>
       </div>
 

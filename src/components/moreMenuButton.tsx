@@ -7,6 +7,7 @@ import {
 type MoreMenuItem = {
   hotkey?: string;
   label: string;
+  icon?: React.ReactNode;
   clickHandler?: Function; 
 }
 
@@ -36,12 +37,14 @@ export default function MoreMenuButton(props:MoreMenuButtonProps):JSX.Element {
         >
           {
             menuItems.map((menuItem, index) => {
-              const { hotkey, label = '', clickHandler = ()=>{}} = menuItem;
+              const { hotkey, label = '', icon, clickHandler = ()=>{}} = menuItem;
               return (
                   <DropdownMenu.Item key={`menu_item_${index}`} className="group text-[13px] leading-none text-white rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none cursor-pointer data-[disabled]:opacity-50 data-[disabled]:pointer-events-none data-[highlighted]:bg-slate-700 data-[highlighted]:text-white"
                   onSelect={() => clickHandler()}
-                  >
-                  {label}{' '}
+                  >  
+                  {icon && (
+                    <div className="inline pr-[8px]">{icon}</div>
+                  )}{label}{' '}
                   <div className="ml-auto pl-[20px] min-w-[4px] text-neutral-400 group-data-[disabled]:opacity-50">
                   {hotkey}
                   </div>
