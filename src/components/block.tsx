@@ -9,7 +9,7 @@ interface BlockProps {
     stretch?: boolean;
     size?: string;
     title?: string;
-    description?: string;
+    description?: string | null;
   }
   
   export default function Block(props:BlockProps):JSX.Element {

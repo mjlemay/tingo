@@ -25,7 +25,7 @@ interface PlayBookViewProps {
 
 export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
     const { actionHandler, children, ruleItem = {jsonBody: '', ruleId: -1, name: '', description: ''} } = props;
-    const { jsonBody, ruleId , name, description} = ruleItem;
+    const { jsonBody, ruleId , name, description } = ruleItem;
     const [command, setCommand] = useState('');
     const [commandCount, setCommandCount] = useState(0);
 

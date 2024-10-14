@@ -44,6 +44,17 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
   // todo: remove any!!
   const fetchData = async () => {
     await ruleData.getProjectRules(projectId, LIMIT).then((data:any) => {
+      let selectedItem:Record<string,any> = {};
+      if (rules[0] || data[0]) {
+        if (rules.length <= data.length) {
+        selectedItem = data[data.length - 1];
+      } else {
+        selectedItem = rules[0];
+      }
+        setSelectedItem(`rule_${selectedItem.ruleId}`);
+      } else {
+        setSelectedItem('');
+      }
       setRules(data);
       setFetched(true);
     });
@@ -89,7 +100,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
   }
 
   const submitAddRule = async (payload:basicRuleType) => {
-    const creationPayload = {...payload, name: 'New Rule', projectId};
+    const creationPayload = {...payload, projectId};
     await ruleData.addRule(creationPayload).then((data:any) => {
       screenActionHandler('workspace', data[0]);
       setFetched(false);
@@ -130,7 +141,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     <button
         className="w-[40px] h-[40px] p-0 flex items-center justify-center border-none cursor-pointer outline-none"
         aria-label="Add"
-        onClick={() => handleActions('create', 'rule', defaultRule)}
+        onClick={() => handleActions('openModal', 'addRule', defaultRule)}
     >
         <PlusCircledIcon />
     </button>
@@ -163,6 +174,14 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
           submitHandler={(payload:basicRuleType)=> submitUpdateRule(payload)} 
           exitHandler={()=> closeModal()}
           defaultPayload={selectedRule()}
+          />
+      },
+      addRule: {
+        title: 'Create New Rule',
+        form: <RuleForm 
+          submitHandler={(payload:basicRuleType)=> submitAddRule(payload)} 
+          exitHandler={()=> closeModal()}
+          defaultPayload={defaultRule}
           />
       }
     }
