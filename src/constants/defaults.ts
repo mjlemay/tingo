@@ -1,20 +1,21 @@
-import { sql } from 'drizzle-orm';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-
-export const projects = sqliteTable('projects', {
-    created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
-    description: text('description'),
-    is_template: integer('is_template').notNull(),
-    name: text('name').notNull(),
-    projectId: integer('projectId', { mode: 'number' }).primaryKey({ autoIncrement: true })
-});
 export const defaultProject = { 
     description: '',
-    projectId:-1,
+    projectId: -1,
     name: '',
     is_template: 0,
     created_at: new Date().toString()
 };
+
+export const defaultRule = { 
+    description: '',
+    projectId: -1,
+    name: '',
+    jsonBody: '{}',
+    ruleId: -1,
+    created_at: new Date().toString()
+};
+
+
 export type basicProjectType = {
     created_at: string | null;
     description: string | null;
@@ -28,6 +29,26 @@ export type createProjectType = {
     description: string | null;
     is_template: number;
     name: string;
+    
 }
+
+export type basicRuleType = {
+    created_at: string | null;
+    name: string;
+    projectId: number;
+    ruleId: number;
+    description: string | null;
+    jsonBody: string;
+}
+
+export type createRuleType = {
+    projectId: number;
+    ruleId?: number;
+    description: string | null;
+    jsonBody: string;
+    name: string;
+}
+
+
 
 

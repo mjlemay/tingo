@@ -12,13 +12,26 @@ pub fn run() {
         // Define your migrations here
         Migration {
             version: 1,
-            description: "create_initial_tables",
+            description: "create_project_table",
             sql: "CREATE TABLE `projects` (
                 `created_at` text DEFAULT (CURRENT_TIMESTAMP),
                 `description` text,
                 `is_template` integer DEFAULT 0 NOT NULL,
                 `name` text NOT NULL,
                 `projectId` integer PRIMARY KEY AUTOINCREMENT NOT NULL
+            );",
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 2,
+            description: "create_rules_table",
+            sql: "CREATE TABLE `rules` (
+                `created_at` text DEFAULT (CURRENT_TIMESTAMP),
+                `description` text,
+                `name` text NOT NULL,
+                `jsonBody` text,
+                `projectId` integer NOT NULL,
+                `ruleId` integer PRIMARY KEY AUTOINCREMENT NOT NULL
             );",
             kind: MigrationKind::Up,
         }

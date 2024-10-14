@@ -22,11 +22,6 @@ const nodeTypes = {
   connection: FGNode,
 };
 
-const nodeBody = {
-  nodes:[],
-  edges: []
-}
-
 const initialNodes = [
   { id: '1', type: 'connection', data: { label: 'Node 1', format: 'input' }, position: { x: 100, y: 100 } },
   { id: '2', type: 'connection', data: { label: 'Node 2', format: 'action' }, position: { x: 400, y: 100 } },
@@ -59,7 +54,7 @@ export default function FlowGraph(props:FlowGraphProps):JSX.Element {
       });
       const newNode = {
         id: `Node_${nodeIDCount}`,
-        type: 'custom',
+        type: 'connection',
         position,
         data: { label: `Node ${nodeIDCount}`, format: formatValue },
       };

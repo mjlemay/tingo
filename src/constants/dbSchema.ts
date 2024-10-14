@@ -8,3 +8,12 @@ export const projects = sqliteTable('projects', {
     name: text('name').notNull(),
     projectId: integer('projectId', { mode: 'number' }).primaryKey({ autoIncrement: true })
 });
+
+export const rules = sqliteTable('rules', {
+    created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+    description: text('description'),
+    name: text('name').notNull(),
+    jsonBody: text('jsonBody'),
+    projectId: integer('projectId', { mode: 'number' }).notNull(),
+    ruleId: integer('ruleId', { mode: 'number' }).primaryKey({ autoIncrement: true }) 
+});
