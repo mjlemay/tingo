@@ -19,6 +19,7 @@ interface FlowGraphProps {
   initialNodes?: Node[];
   initialEdges?: Edge[];
   latestCommand?: string;
+  handleChange?: Function;
 }
 
 const snapGrid:[number, number] = [20, 20];
@@ -28,7 +29,14 @@ const nodeTypes = {
 
 
 export default function FlowGraph(props:FlowGraphProps):JSX.Element {
-  const { height = "100%", width = "100%", latestCommand = '', initialNodes = [], initialEdges =[] } = props;
+  const {
+      height = "100%",
+      width = "100%",
+      latestCommand = '',
+      initialNodes = [],
+      initialEdges =[],
+      handleChange = ()=>{}
+  } = props;
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [nodeIDCount, setNodeIDCount] = useState(initialNodes.length + 1);
@@ -70,6 +78,13 @@ export default function FlowGraph(props:FlowGraphProps):JSX.Element {
       setNodes(initialNodes);
     }
   }, [latestCommand]);
+
+
+  useEffect(()=> {
+    if (edges !== initialEdges && nodes !== initialNodes) {
+      handleChange({nodes, edges})
+    }
+  }, [nodes, edges]);
 
   return (
   <div style={{width, height, display:'block'}}>

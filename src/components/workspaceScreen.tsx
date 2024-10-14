@@ -60,7 +60,6 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     });
   };
 
-
   const activateModal = (modal:string) => {
     setSelectedModal(modal);
     setOpenModal(true);
@@ -84,7 +83,6 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
       setFetched(false);
     });
   }
-
 
   const submitDeleteProject = async (payload:basicProjectType) => {
     await projectData.deleteProject(payload).then(() => {
@@ -118,6 +116,11 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
         break;
       case 'delete':
         value === 'rule' && submitDeleteRule(payload as number);
+        break;
+      case 'update':
+        let updateItem = selectedRule();
+        updateItem.jsonBody = JSON.stringify(payload);
+        value === 'rule' && submitUpdateRule(updateItem as basicRuleType);
         break;
       default:
         break;

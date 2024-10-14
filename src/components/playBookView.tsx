@@ -33,6 +33,10 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
         actionHandler && actionHandler(action, value, payload);
     };
 
+    const flowUpdateHandler = (payload:basicRuleType) => { 
+        actionHandler && actionHandler('update', 'rule', payload);
+    };
+
     const toolbarMenuItems = [
         {
             icon: <EnterIcon />,
@@ -80,12 +84,25 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
     return (
         <>
             <ColumnLayout>
-                <Block title={name} description={description} size="lg" noMargin={true} stretch={true} icon={<RuleIcon />} menu={<MoreMenuButton menuItems={ProjectMenuItems} />}>
+                <Block
+                    title={name}
+                    description={description}
+                    size="lg" 
+                    noMargin={true}
+                    stretch={true}
+                    icon={<RuleIcon />}
+                    menu={<MoreMenuButton menuItems={ProjectMenuItems} />}
+                    >
                     <div
                         className="m-0 p-0 overflow-auto h-full flex-start relative"
                     >
                         <ReactFlowProvider>
-                            <FlowGraph latestCommand={command} initialNodes={parseJsonBody('nodes')} initialEdges={parseJsonBody('edges')} />
+                            <FlowGraph
+                                latestCommand={command}
+                                initialNodes={parseJsonBody('nodes')}
+                                initialEdges={parseJsonBody('edges')}
+                                handleChange={flowUpdateHandler}
+                            />
                         </ReactFlowProvider>
                         <ToolbarMenu
                             label='Rules Menu'
