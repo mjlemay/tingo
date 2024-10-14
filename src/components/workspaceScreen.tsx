@@ -18,6 +18,7 @@ import PlayBookView from './playBookView';
 import { projectData } from '../services/projectService.ts';
 import { ruleData } from '../services/ruleService.ts';
 import MenuItem from './menuItem.tsx';
+import { string } from 'zod';
 
 
 interface WorkspaceScreenProps {
@@ -44,14 +45,14 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
   // todo: remove any!!
   const fetchData = async () => {
     await ruleData.getProjectRules(projectId, LIMIT).then((data:any) => {
-      let selectedItem:Record<string,any> = {};
-      if (rules[0] || data[0]) {
+      let fetchItem:Record<string,any> = {};
+      if ((rules[0] || data[0]) && selectedItem !== '') {
         if (rules.length <= data.length) {
-        selectedItem = data[data.length - 1];
-      } else {
-        selectedItem = rules[0];
-      }
-        setSelectedItem(`rule_${selectedItem.ruleId}`);
+          fetchItem = data[data.length - 1];
+        } else {
+          fetchItem = rules[0];
+        }
+        setSelectedItem(`rule_${fetchItem.ruleId}`);
       } else {
         setSelectedItem('');
       }
@@ -131,6 +132,19 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     const itemId = selectedItem && selectedItem.split('_')[1];
     const ruleData = rules.filter(rule => rule.ruleId === parseInt(itemId)) || [];
     return ruleData[0];
+  }
+  const selectedWorkView = () => {
+    let workView = <></>;
+    const selectedView:string = selectedItem && selectedItem.split('_')[0] || '';
+    const workViews = {
+      rule: {
+        view:  <PlayBookView ruleItem={selectedRule()} actionHandler={handleActions} />
+      }
+    }
+    if(workViews[selectedView as keyof typeof string] && workViews[selectedView as keyof typeof string]['view']) {
+      workView = workViews[selectedView as keyof typeof string]['view'];
+    }
+    return workView;
   }
 
   useEffect(()=> {
@@ -217,11 +231,9 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
             </Card>
           </div>
           <div data-name="stage" className="grow min-h-fit max-h-full rounded-lg bg-neutral-950 mt-2 mb-2 mr-2">
-            {/*  Staged elements here */}
-            <PlayBookView ruleItem={selectedRule()} actionHandler={handleActions} />
+            {selectedWorkView()}
           </div>
       </div>
-
 
       <div data-id="hidden-containers" className='absolute'>
         <Modal 
