@@ -9,10 +9,11 @@ interface BlockProps {
     stretch?: boolean;
     size?: string;
     title?: string;
+    description?: string;
   }
   
   export default function Block(props:BlockProps):JSX.Element {
-    const { children, icon, menu, noMargin, size, stretch, title } = props;
+    const { children, icon, menu, description, noMargin, size, stretch, title } = props;
   
     return (
       <div className={`flex flex-col ${stretch && 'min-w-full'} ${noMargin ? 'm-0' : 'm-2'}`}>
@@ -23,7 +24,7 @@ interface BlockProps {
               {icon}
             </div>
           )}
-          {title && <div className={`flex grow ${size == 'lg' ? 'text-xl font-bold' : 'font-semibold'} items-center min-h-[40px] truncate ...`}>{title}</div>}
+          {title && <div className={`flex grow ${size == 'lg' ? 'text-xl font-bold' : 'font-semibold'} whitespace-nowrap items-center min-h-[40px] truncate ...`}>{title}{description && <span className="font-light text-m text-neutral-500 pl-4 truncate ...">{description}</span>} </div>}
           {menu && (
             <div className='flex grow-0 items-center justify-center min-w-[40px] min-h-[40px] rounded-lg border-1'>
               {menu}

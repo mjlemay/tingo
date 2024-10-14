@@ -34,8 +34,7 @@ const updateRule = async (rule:basicRuleType) => {
         .returning();
 }
 
-const deleteRule = async (rule:basicRuleType) => {
-    const { ruleId } = rule;
+const deleteRule = async (ruleId:number) => {
     return await db.delete(rules)
         .where(eq(rules.ruleId, ruleId))
         .returning();

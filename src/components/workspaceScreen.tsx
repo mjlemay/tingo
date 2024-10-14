@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './modal';
 import ProjectForm from './projectForm';
+import RuleForm from './ruleForm';
 import Block from './block';
 import Card from './card';
 import RuleIcon from '../svg/ruleIcon';
@@ -58,15 +59,32 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     setSelectedModal('');
   }
 
+    // todo: remove any!!
   const submitUpdateProject = async (payload:basicProjectType) => {
     await projectData.updateProject(payload).then((data:any) => {
       screenActionHandler('workspace', data[0]);
     });
   }
 
+    // todo: remove any!!
+  const submitUpdateRule = async (payload:basicRuleType) => {
+    await ruleData.updateRule(payload).then((data:any) => {
+      screenActionHandler('workspace', data[0]);
+      setFetched(false);
+    });
+  }
+
+
   const submitDeleteProject = async (payload:basicProjectType) => {
     await projectData.deleteProject(payload).then(() => {
       screenActionHandler('splash');
+    });
+  }
+
+  const submitDeleteRule = async (ruleId:number) => {
+    await ruleData.deleteRule(ruleId).then(() => {
+      screenActionHandler('workspace');
+      setFetched(false);
     });
   }
 
@@ -79,17 +97,16 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
   }
 
 
-  const handleActions = (action:string, value:string, payload:basicProjectType | basicRuleType) => {
+  const handleActions = (action:string, value:string, payload:basicRuleType | number) => {
     switch (action) {
       case 'openModal':
           activateModal(value);
         break;
-      case 'submit':
-        value === 'update' && submitUpdateProject(payload as basicProjectType);
-        value === 'delete' && submitDeleteProject(payload as basicProjectType);
-        break;
       case 'create':
         value === 'rule' && submitAddRule(payload as basicRuleType);
+        break;
+      case 'delete':
+        value === 'rule' && submitDeleteRule(payload as number);
         break;
       default:
         break;
@@ -119,6 +136,39 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     </button>
     );
 
+  const modalElement = (selectedModal:string, action:string ) => {
+    const modal = selectedModal || null;
+    const modalKey = action || null;
+    const modalSections:Record<string, any> = {
+      configProject: {
+        title: 'Configure » Delete',
+        form: <ConfirmationForm 
+          confirmHandler={(payload:basicProjectType)=> submitDeleteProject(payload)} 
+          denyHandler={()=> closeModal()} 
+          confirmMessage={confirmDelete}
+          defaultPayload={selectedProject}
+          />
+      },
+      editProject: {
+        title: 'Edit Project',
+        form: <ProjectForm 
+          submitHandler={(payload:basicProjectType)=> submitUpdateProject(payload)} 
+          exitHandler={()=> closeModal()}
+          defaultPayload={selectedProject}
+          />
+      },
+      editRule: {
+        title: 'Edit Rule Details',
+        form: <RuleForm 
+          submitHandler={(payload:basicRuleType)=> submitUpdateRule(payload)} 
+          exitHandler={()=> closeModal()}
+          defaultPayload={selectedRule()}
+          />
+      }
+    }
+    return modalKey && modal && modalSections[modal as string][modalKey as string];
+  }
+
   return (
     <div className="flex flex-col min-h-screen min-w-full max-h-screen max-w-full justify-top flex-nowrap">
       <div className="flex-full min-w-full justify-top max-h-[40px]">
@@ -146,7 +196,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
           </div>
           <div data-name="stage" className="grow min-h-fit max-h-full rounded-lg bg-neutral-950 mt-2 mb-2 mr-2">
             {/*  Staged elements here */}
-            <PlayBookView ruleItem={selectedRule()} />
+            <PlayBookView ruleItem={selectedRule()} actionHandler={handleActions} />
           </div>
       </div>
 
@@ -155,24 +205,10 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
         <Modal 
           open={openModal}
           closeHandler={closeModal}
-          title={selectedModal === 'configProject' ? 'Configure » Delete' : 'Edit Project'}
+          title={modalElement(selectedModal, 'title')}
           icon={<BackpackIcon />}
         >
-          {selectedModal === 'editProject' && (
-            <ProjectForm 
-              submitHandler={(payload:basicProjectType)=> submitUpdateProject(payload)} 
-              exitHandler={()=> closeModal()}
-              defaultPayload={selectedProject}
-              />
-          )}
-          {selectedModal === 'configProject' && (
-            <ConfirmationForm 
-              confirmHandler={(payload:basicProjectType)=> submitDeleteProject(payload)} 
-              denyHandler={()=> closeModal()} 
-              confirmMessage={confirmDelete}
-              defaultPayload={selectedProject}
-              />
-          )}
+          {modalElement(selectedModal, 'form')}
         </Modal>
       </div>
     </div>

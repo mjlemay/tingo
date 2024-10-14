@@ -20,15 +20,18 @@ import MoreMenuButton from './moreMenuButton';
 interface PlayBookViewProps {
     children?: React.ReactNode;
     ruleItem: basicRuleType;
+    actionHandler?: Function;
   }
 
 export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
-const { children, ruleItem = {jsonBody: '', ruleId: -1, name: ''} } = props;
-const { jsonBody, ruleId , name} = ruleItem;
-const [command, setCommand] = useState('');
-const [commandCount, setCommandCount] = useState(0);
+    const { actionHandler, children, ruleItem = {jsonBody: '', ruleId: -1, name: '', description: ''} } = props;
+    const { jsonBody, ruleId , name, description} = ruleItem;
+    const [command, setCommand] = useState('');
+    const [commandCount, setCommandCount] = useState(0);
 
-const actionHandler = (action:string, value:string) => { console.log(action,value)};
+    const moreMenuHandler = (action:string, value:string, payload:number) => { 
+        actionHandler && actionHandler(action, value, payload);
+    };
 
     const toolbarMenuItems = [
         {
@@ -49,12 +52,12 @@ const actionHandler = (action:string, value:string) => { console.log(action,valu
         {
         label: 'Rename',
         icon: <Pencil1Icon />,
-        clickHandler: () => actionHandler('openModal', 'editRule')
+        clickHandler: () => moreMenuHandler('openModal', 'editRule', ruleId)
         },
         {
         label: 'Delete',
         icon: <EraserIcon />,
-        clickHandler: () => actionHandler('openModal', 'deleteRule'),
+        clickHandler: () => moreMenuHandler('delete', 'rule', ruleId),
         }
     ]
 
@@ -77,7 +80,7 @@ const actionHandler = (action:string, value:string) => { console.log(action,valu
     return (
         <>
             <ColumnLayout>
-                <Block title={name} size="lg" noMargin={true} stretch={true} icon={<RuleIcon />} menu={<MoreMenuButton menuItems={ProjectMenuItems} />}>
+                <Block title={name} description={description} size="lg" noMargin={true} stretch={true} icon={<RuleIcon />} menu={<MoreMenuButton menuItems={ProjectMenuItems} />}>
                     <div
                         className="m-0 p-0 overflow-auto h-full flex-start relative"
                     >
