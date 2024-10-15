@@ -6,6 +6,7 @@ import Block from './block';
 import Card from './card';
 import RuleIcon from '../svg/ruleIcon';
 import ConfirmationForm from './confirmationForm';
+import ScrollBox from './scrollBox';
 import { textCopy } from '../constants/language';
 import { defaultProject, defaultRule, basicProjectType, basicRuleType } from '../constants/defaults';
 import TabHeaders from './tabheaders';
@@ -28,6 +29,8 @@ interface WorkspaceScreenProps {
 }
 
 const LIMIT = 100;
+const LIST_ITEM_HEIGHT = 24;
+const LIST_ITEM_VIEW_LIMIT = 8;
 
 const defaultRules:basicRuleType[] = [];
   
@@ -41,6 +44,14 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
   const [ rules, setRules ] = useState(defaultRules);
   const [ hasFetched, setFetched ] = useState(false);
 
+  const listItemViewHeight = (limit:number) => {
+    let listItemViewLimit = limit < LIST_ITEM_VIEW_LIMIT ? limit : LIST_ITEM_VIEW_LIMIT;
+    listItemViewLimit = listItemViewLimit * LIST_ITEM_HEIGHT;
+    if (limit > LIST_ITEM_VIEW_LIMIT ) {
+      listItemViewLimit = listItemViewLimit - (LIST_ITEM_HEIGHT / 2);
+    }
+    return listItemViewLimit;
+  }
 
   // todo: remove any!!
   const fetchData = async () => {
@@ -214,19 +225,21 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
           <div data-name="sidebar" className="min-w-[250px]">
             <Card>
               <Block title="Rulebooks" icon={<RuleIcon />} menu={addBtn}>
-              {rules.map(rule => {
-                const { name, ruleId } =rule;
-                const itemKey = `rule_${ruleId}`;
-                return (
-                  <MenuItem 
-                    key={itemKey}
-                    selected={selectedItem === itemKey}
-                    label={name} 
-                    prefix={<FileTextIcon />}
-                    handleAction={() => setSelectedItem(itemKey)}
-                  />
-                )}
-              )}
+                <ScrollBox height={listItemViewHeight(rules.length)}>
+                  {rules.map(rule => {
+                    const { name, ruleId } =rule;
+                    const itemKey = `rule_${ruleId}`;
+                    return (
+                      <MenuItem 
+                        key={itemKey}
+                        selected={selectedItem === itemKey}
+                        label={name} 
+                        prefix={<FileTextIcon />}
+                        handleAction={() => setSelectedItem(itemKey)}
+                      />
+                    )}
+                  )}
+                </ScrollBox>
               </Block>
             </Card>
           </div>
