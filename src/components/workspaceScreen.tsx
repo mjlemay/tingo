@@ -13,7 +13,9 @@ import TabHeaders from './tabheaders';
 import { 
   BackpackIcon,
   FileTextIcon,
-  PlusCircledIcon
+  PlusCircledIcon,
+  Component2Icon,
+  Component1Icon
 } from '@radix-ui/react-icons';
 import PlayBookView from './playBookView';
 import { projectData } from '../services/projectService.ts';
@@ -223,6 +225,32 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
       </div>
       <div data-name="workLayout" className='min-w-full max-h-screen justify-stretch items-stretch flex flex-row flex-grow'>
           <div data-name="sidebar" className="min-w-[250px]">
+            <Card>
+              <Block title="Components" icon={<Component1Icon />} menu={addBtn}>
+                <ScrollBox height={listItemViewHeight(1)}>
+                  <MenuItem 
+                        key={'dummy_item'}
+                        selected={selectedItem === 'dummy_item'}
+                        label={'main Window'} 
+                        prefix={<Component1Icon />}
+                        handleAction={() => setSelectedItem('dummy_item')}
+                      />
+                  {/* {rules.map(rule => {
+                    const { name, ruleId } =rule;
+                    const itemKey = `rule_${ruleId}`;
+                    return (
+                      <MenuItem 
+                        key={itemKey}
+                        selected={selectedItem === itemKey}
+                        label={name} 
+                        prefix={<FileTextIcon />}
+                        handleAction={() => setSelectedItem(itemKey)}
+                      />
+                    )}
+                  )} */}
+                </ScrollBox>
+              </Block>
+            </Card>
             <Card>
               <Block title="Rulebooks" icon={<RuleIcon />} menu={addBtn}>
                 <ScrollBox height={listItemViewHeight(rules.length)}>
