@@ -60,9 +60,10 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     await ruleData.getProjectRules(projectId, LIMIT).then((data:any) => {
       let fetchItem:Record<string,any> = {};
       if ((rules[0] || data[0]) && selectedItem !== '') {
-        if (rules.length <= data.length) {
+        if (rules.length < data.length) {
           fetchItem = data[data.length - 1];
-        } else {
+        }
+        if (rules.length > data.length) {
           fetchItem = rules[0];
         }
         setSelectedItem(`rule_${fetchItem.ruleId}`);
@@ -133,8 +134,10 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
         break;
       case 'update':
         let updateItem = selectedRule();
-        updateItem.jsonBody = JSON.stringify(payload);
-        value === 'rule' && submitUpdateRule(updateItem as basicRuleType);
+        if (updateItem && updateItem.jsonBody) {
+          updateItem.jsonBody = JSON.stringify(payload);
+          value === 'rule' && submitUpdateRule(updateItem as basicRuleType);
+        }
         break;
       default:
         break;
