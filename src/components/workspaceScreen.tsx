@@ -66,7 +66,9 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
         if (rules.length > data.length) {
           fetchItem = rules[0];
         }
-        setSelectedItem(`rule_${fetchItem.ruleId}`);
+        if (rules.length != data.length) {
+          setSelectedItem(`rule_${fetchItem.ruleId}`);
+        }
       } else {
         setSelectedItem('');
       }
@@ -134,10 +136,8 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
         break;
       case 'update':
         let updateItem = selectedRule();
-        if (updateItem && updateItem.jsonBody) {
-          updateItem.jsonBody = JSON.stringify(payload);
-          value === 'rule' && submitUpdateRule(updateItem as basicRuleType);
-        }
+        updateItem.jsonBody = JSON.stringify(payload);
+        value === 'rule' && submitUpdateRule(updateItem as basicRuleType);
         break;
       default:
         break;

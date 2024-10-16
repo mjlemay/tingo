@@ -1,5 +1,10 @@
 import React from 'react';
-import { DashboardIcon } from '@radix-ui/react-icons'
+import { 
+  DashboardIcon,
+  RocketIcon,
+  KeyboardIcon,
+  DesktopIcon
+} from '@radix-ui/react-icons'
 import IconButton from './iconButton';
 
 interface SideMenuBarProps {
@@ -15,6 +20,15 @@ interface SideMenuBarProps {
         <div className="min-w-[50px] min-h-[50px]"></div>
         <IconButton handleAction={()=> screenActionHandler('splash')}>
             <DashboardIcon className="min-w-[50px] min-h-[50px]" />
+        </IconButton>
+        <IconButton handleAction={()=> screenActionHandler('splash')}>
+            <RocketIcon className="min-w-[50px] min-h-[50px]" />
+        </IconButton>
+        <IconButton handleAction={()=> screenActionHandler('splash')}>
+            <KeyboardIcon className="min-w-[50px] min-h-[50px]" />
+        </IconButton>
+        <IconButton handleAction={()=> screenActionHandler('splash')}>
+            <DesktopIcon className="min-w-[50px] min-h-[50px]" />
         </IconButton>
         {children}
       </div>

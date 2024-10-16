@@ -27,14 +27,19 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
     const { actionHandler, children, ruleItem = {jsonBody: '', ruleId: -1, name: '', description: ''} } = props;
     const { jsonBody, ruleId , name, description } = ruleItem;
     const [command, setCommand] = useState('');
+    const [lastFlow, setLastFlow] = useState('');
     const [commandCount, setCommandCount] = useState(0);
 
     const moreMenuHandler = (action:string, value:string, payload:number) => { 
         actionHandler && actionHandler(action, value, payload);
     };
 
-    const flowUpdateHandler = (payload:basicRuleType) => { 
-        actionHandler && actionHandler('update', 'rule', payload);
+    const flowUpdateHandler = (payload:basicRuleType) => {
+        const playloadStr = JSON.stringify(payload);
+        if (playloadStr !== lastFlow) {
+            actionHandler && actionHandler('update', 'rule', payload);
+            setLastFlow(playloadStr);
+        }
     };
 
     const toolbarMenuItems = [
@@ -54,14 +59,14 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
 
     const ProjectMenuItems = [
         {
-        label: 'Rename',
-        icon: <Pencil1Icon />,
-        clickHandler: () => moreMenuHandler('openModal', 'editRule', ruleId)
+            label: 'Rename',
+            icon: <Pencil1Icon />,
+            clickHandler: () => moreMenuHandler('openModal', 'editRule', ruleId)
         },
         {
-        label: 'Delete',
-        icon: <EraserIcon />,
-        clickHandler: () => moreMenuHandler('delete', 'rule', ruleId),
+            label: 'Delete',
+            icon: <EraserIcon />,
+            clickHandler: () => moreMenuHandler('delete', 'rule', ruleId),
         }
     ]
 

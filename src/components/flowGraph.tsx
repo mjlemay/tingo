@@ -79,11 +79,8 @@ export default function FlowGraph(props:FlowGraphProps):JSX.Element {
     }
   }, [latestCommand]);
 
-
   useEffect(()=> {
-    if (edges !== initialEdges && nodes !== initialNodes) {
-      handleChange({nodes, edges})
-    }
+    handleChange({nodes, edges});
   }, [nodes, edges]);
 
   return (
