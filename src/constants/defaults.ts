@@ -15,40 +15,52 @@ export const defaultRule = {
     created_at: new Date().toString()
 };
 
+export const defaultDevice = {
+    deviceId: -1,
+    name: '',
+    type: '',
+    description: '',
+    configuration: '{}',
+    created_at: new Date().toString()
+};
 
-export type basicProjectType = {
-    created_at: string | null;
-    description: string | null;
-    is_template: number;
-    name: string;
-    projectId: number;
-}
 
 export type createProjectType = {
-    projectId?: null;
+    projectId?: number;
     description: string | null;
     is_template: number;
     name: string;
-    
 }
 
-export type basicRuleType = {
-    created_at: string | null;
-    name: string;
+export type basicProjectType = createProjectType & {
     projectId: number;
-    ruleId: number;
-    description: string | null;
-    jsonBody: string;
+    created_at: string | null;
 }
 
 export type createRuleType = {
-    projectId: number;
+    projectId?: number;
     ruleId?: number;
+    name: string;
     description: string | null;
     jsonBody: string;
-    name: string;
 }
 
+export type basicRuleType = createRuleType & {
+    projectId: number;
+    ruleId: number;
+    created_at: string | null;
+}
 
+export type createDeviceType = {
+    deviceId?: number;
+    name: string;
+    type: string;
+    description: string | null;
+    configuration: string;
+}
 
+export type basicDeviceType = createDeviceType & {
+    deviceId: number;
+    created_at: string | null;
+}
 

@@ -1,9 +1,9 @@
 import { db } from './sqlLiteService';
 import { eq } from 'drizzle-orm';
 import { rules } from '../constants/dbSchema';
-import { basicRuleType, createRuleType } from '../constants/defaults';
+import { basicRuleType } from '../constants/defaults';
 
-const addRule = async (rule:createRuleType) => {
+const addRule = async (rule:basicRuleType) => {
     const { name, description, jsonBody, projectId } = rule;
     const values ={
         name,

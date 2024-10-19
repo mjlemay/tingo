@@ -14,11 +14,11 @@ pub fn run() {
             version: 1,
             description: "create_project_table",
             sql: "CREATE TABLE `projects` (
-                `created_at` text DEFAULT (CURRENT_TIMESTAMP),
+                `projectId` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                `name` text NOT NULL,
                 `description` text,
                 `is_template` integer DEFAULT 0 NOT NULL,
-                `name` text NOT NULL,
-                `projectId` integer PRIMARY KEY AUTOINCREMENT NOT NULL
+                `created_at` text DEFAULT (CURRENT_TIMESTAMP)
             );",
             kind: MigrationKind::Up,
         },
@@ -26,12 +26,25 @@ pub fn run() {
             version: 2,
             description: "create_rules_table",
             sql: "CREATE TABLE `rules` (
-                `created_at` text DEFAULT (CURRENT_TIMESTAMP),
-                `description` text,
-                `name` text NOT NULL,
-                `jsonBody` text,
+                `ruleId` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
                 `projectId` integer NOT NULL,
-                `ruleId` integer PRIMARY KEY AUTOINCREMENT NOT NULL
+                `name` text NOT NULL,
+                `description` text,
+                `jsonBody` text,
+                `created_at` text DEFAULT (CURRENT_TIMESTAMP)
+            );",
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 3,
+            description: "create_devices_table",
+            sql: "CREATE TABLE `devices` (
+                `deviceId` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                `name` text NOT NULL,
+                `type` text NOT NULL,
+                `description` text,
+                `configuation` text,
+                `created_at` text DEFAULT (CURRENT_TIMESTAMP)
             );",
             kind: MigrationKind::Up,
         }
