@@ -1,10 +1,10 @@
 import { db } from './sqlLiteService';
 import { eq } from 'drizzle-orm';
 import { projects } from '../constants/dbSchema';
-import { basicProjectType } from '../constants/defaults';
+import { basicProjectType, createProjectType } from '../constants/defaults';
 
 
-const addProject = async (project:basicProjectType) => {
+const addProject = async (project:createProjectType) => {
     const { name, description } = project;
     const values ={
         name,

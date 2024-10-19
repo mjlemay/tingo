@@ -38,7 +38,7 @@ export type basicProjectType = createProjectType & {
 }
 
 export type createRuleType = {
-    projectId?: number;
+    projectId: number;
     ruleId?: number;
     name: string;
     description: string | null;

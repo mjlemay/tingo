@@ -1,9 +1,9 @@
 import { db } from './sqlLiteService';
 import { eq } from 'drizzle-orm';
 import { devices } from '../constants/dbSchema';
-import { basicDeviceType } from '../constants/defaults';
+import { basicDeviceType, createDeviceType } from '../constants/defaults';
 
-const addDevice = async (device:basicDeviceType) => {
+const addDevice = async (device:createDeviceType) => {
     const { name, type, description, configuration } = device;
     const values ={
         name,

@@ -14,7 +14,6 @@ import {
   BackpackIcon,
   FileTextIcon,
   PlusCircledIcon,
-  Component2Icon,
   Component1Icon
 } from '@radix-ui/react-icons';
 import PlayBookView from './playBookView';
