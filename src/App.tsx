@@ -2,6 +2,7 @@ import { useState } from "react";
 // import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 import SplashScreen from './components/splashScreen.tsx';
+import LaunchScreen from './components/launchScreen.tsx';
 import WorkSpaceScreen from './components/workspaceScreen.tsx';
 import { defaultProject, basicProjectType } from './constants/defaults.ts';
 import SideMenuBar from './components/sideMenuBar.tsx';
@@ -28,6 +29,7 @@ function App() {
     <SideMenuBar screenActionHandler={handleAction}  />
     <div className={`flex flex-1 items-center justify-center`}>
       {screen == 'splash' && <SplashScreen screenActionHandler={handleAction} />}
+      {screen == 'launch' && <LaunchScreen screenActionHandler={handleAction} selectedProject={project} />}
       {screen == 'workspace' && <WorkSpaceScreen screenActionHandler={handleAction} selectedProject={project} />}
     </div>
   </div>

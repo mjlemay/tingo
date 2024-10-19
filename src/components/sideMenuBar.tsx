@@ -1,9 +1,9 @@
 import React from 'react';
 import { 
-  DashboardIcon,
+  IdCardIcon,
   RocketIcon,
-  KeyboardIcon,
-  DesktopIcon
+  DesktopIcon,
+  BackpackIcon,
 } from '@radix-ui/react-icons'
 import IconButton from './iconButton';
 
@@ -19,15 +19,15 @@ interface SideMenuBarProps {
       <div className={`h-screen min-h-screen w-[75px] bg-neutral-925`}>
         <div className="min-w-[50px] min-h-[50px]"></div>
         <IconButton handleAction={()=> screenActionHandler('splash')}>
-            <DashboardIcon className="min-w-[50px] min-h-[50px]" />
+            <IdCardIcon className="min-w-[50px] min-h-[50px]" />
         </IconButton>
-        <IconButton handleAction={()=> screenActionHandler('splash')}>
+        <IconButton handleAction={()=> screenActionHandler('launch')}>
             <RocketIcon className="min-w-[50px] min-h-[50px]" />
         </IconButton>
-        <IconButton handleAction={()=> screenActionHandler('splash')}>
-            <KeyboardIcon className="min-w-[50px] min-h-[50px]" />
+        <IconButton handleAction={()=> screenActionHandler('workspace')}>
+            <BackpackIcon className="min-w-[50px] min-h-[50px]" />
         </IconButton>
-        <IconButton handleAction={()=> screenActionHandler('splash')}>
+        <IconButton handleAction={()=> screenActionHandler('device')}>
             <DesktopIcon className="min-w-[50px] min-h-[50px]" />
         </IconButton>
         {children}
