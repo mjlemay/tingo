@@ -43,7 +43,7 @@ pub fn run() {
                 `name` text NOT NULL,
                 `type` text NOT NULL,
                 `description` text,
-                `configuation` text,
+                `configuration` text,
                 `created_at` text DEFAULT (CURRENT_TIMESTAMP)
             );",
             kind: MigrationKind::Up,

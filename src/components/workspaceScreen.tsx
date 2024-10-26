@@ -162,11 +162,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     return workView;
   }
 
-  useEffect(()=> {
-    if (!hasFetched) {
-      fetchData();
-    }
-  }, [hasFetched]);
+  useEffect(()=> { !hasFetched && fetchData() }, [hasFetched]);
 
 
   const addBtn = (

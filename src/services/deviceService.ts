@@ -18,8 +18,8 @@ const getDevice = async (deviceId:number) => {
     return await db.select().from(devices).where(eq(devices.deviceId, deviceId));
 }
 
-const getDevicesByType = async (type:string, limit:number) => {
-    return await db.select().from(devices).where(eq(devices.type, type)).limit(limit);
+const getDevicesByType = async (deviceType:string, limit:number) => {
+    return await db.select().from(devices).where(eq(devices.type, deviceType)).limit(limit);
 }
 
 const getAllDevices = async (limit:number) => {
