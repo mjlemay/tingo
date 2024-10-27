@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Window } from '@tauri-apps/api/window';
+import { Webview } from '@tauri-apps/api/webview';
 import {basicProjectType } from '../constants/defaults';
 import TabHeaders from './tabheaders';
 import Modal from './modal';
@@ -27,6 +28,13 @@ interface LaunchScreenProps {
   children?: React.ReactNode;
   selectedProject: basicProjectType;
   screenActionHandler?: Function;
+}
+
+const defaultNewWindowOptions = {
+  x: 50,
+  y: 50,
+  width: 400,
+  height: 300
 }
   
 export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
@@ -74,11 +82,23 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
     if (toggle) {
       console.log(name, toggle);
       const appWindow = new Window(windowName, {title: options.title});
+      const webview = new Webview(appWindow, 'theUniqueLabel', {
+        ...defaultNewWindowOptions, 
+        url: 'http://www.google.com'
+      });
       appWindow.once('tauri://created', function () {
         // window successfully created
         console.log('tauri://created');
        });
        appWindow.once('tauri://error', function (err) {
+        // an error happened creating the window
+        console.log('tauri://error', err);
+       });
+       webview.once('tauri://created', function () {
+        // window successfully created
+        console.log('tauri://created');
+       });
+       webview.once('tauri://error', function (err) {
         // an error happened creating the window
         console.log('tauri://error', err);
        });
