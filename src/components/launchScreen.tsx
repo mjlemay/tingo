@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Window } from '@tauri-apps/api/window';
 import {basicProjectType } from '../constants/defaults';
 import TabHeaders from './tabheaders';
 import Modal from './modal';
@@ -21,11 +22,12 @@ import FullScreenViewer from './fullScreenViewer.tsx';
 
 const LIMIT = 50;
 
+
 interface LaunchScreenProps {
-    children?: React.ReactNode;
-    selectedProject: basicProjectType;
-    screenActionHandler?: Function;
-  }
+  children?: React.ReactNode;
+  selectedProject: basicProjectType;
+  screenActionHandler?: Function;
+}
   
 export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
   const { children, selectedProject } = props;
@@ -35,6 +37,8 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
   const [ live, setLive ] = useState(false);
   const [ isFullScreen, setIsFullScreen] = useState(false);
   const [ devices, setDevices ] = useState([]);
+  const defaultWindowName:string[]= [];
+  const [ deviceWindows, setDeviceWindows ] = useState(defaultWindowName);
   const [ hasFetched, setHasFetched ] = useState(false);
 
   const selectedDevice = () => {
@@ -64,6 +68,28 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
     });
   };
 
+  const toggleNewWindow = async (name:string, toggle:boolean) => {
+      const windowCount = deviceWindows.length || 0;
+      const windowName = `${name}_${windowCount}`;
+    if (toggle) {
+      console.log(name, toggle);
+      const appWindow = new Window(windowName);
+      appWindow.once('tauri://created', function () {
+        // window successfully created
+        console.log('tauri://created');
+       });
+       appWindow.once('tauri://error', function (err) {
+        // an error happened creating the window
+        console.log('tauri://error', err);
+       });
+      let windowNameArr = deviceWindows;
+      windowNameArr.push(windowName);
+      setDeviceWindows(windowNameArr)
+    } else {
+
+    }
+  }
+
     const handleActions = (action:string, value:string, payload:number | createDeviceType) => {
         switch (action) {
             case 'openModal':
@@ -75,6 +101,12 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
                 break;
             case 'closeFullScreen':
                 setIsFullScreen(false);
+                break;
+            case 'openNewWindow':
+                toggleNewWindow('newWindow', true);
+                break;
+              case 'closeNewWindow':
+                toggleNewWindow('newWindow', false);   
                 break;
             case 'create':
                 value === 'device' && deviceData.addDevice(payload as createDeviceType);
@@ -137,7 +169,7 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
                 <div className="flex flex-row grow min-h-full flex-nowrap">
                 {devices.map(device => {
                     const { name, type, deviceId, description } = device;
-                    return <DeviceCard name={name} type={type} deviceId={deviceId} actionHandler={handleActions} description={description} />
+                    return <DeviceCard name={name} key={`DeviceCard_${deviceId}`} type={type} deviceId={deviceId} actionHandler={handleActions} description={description} />
                 })}
                 </div>
               </Block>
