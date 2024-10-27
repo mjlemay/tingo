@@ -68,12 +68,12 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
     });
   };
 
-  const toggleNewWindow = async (name:string, toggle:boolean) => {
+  const toggleNewWindow = async (name:string, toggle:boolean, options:Record<string, string>) => {
       const windowCount = deviceWindows.length || 0;
-      const windowName = `${name}_${windowCount}`;
+      const windowName =  `${name}_${windowCount}`;
     if (toggle) {
       console.log(name, toggle);
-      const appWindow = new Window(windowName);
+      const appWindow = new Window(windowName, {title: options.title});
       appWindow.once('tauri://created', function () {
         // window successfully created
         console.log('tauri://created');
@@ -90,7 +90,7 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
     }
   }
 
-    const handleActions = (action:string, value:string, payload:number | createDeviceType) => {
+    const handleActions = (action:string, value:string, payload:number | createDeviceType | Record<string, string>) => {
         switch (action) {
             case 'openModal':
                 setSelectedModal(value);
@@ -103,10 +103,10 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
                 setIsFullScreen(false);
                 break;
             case 'openNewWindow':
-                toggleNewWindow('newWindow', true);
+                toggleNewWindow('newWindow', true, payload as Record<string, string>);
                 break;
               case 'closeNewWindow':
-                toggleNewWindow('newWindow', false);   
+                toggleNewWindow('newWindow', false, payload as Record<string, string>);   
                 break;
             case 'create':
                 value === 'device' && deviceData.addDevice(payload as createDeviceType);

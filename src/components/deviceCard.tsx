@@ -36,7 +36,7 @@ export default function DeviceCard(props:DeviceCardProps):JSX.Element {
                                         {description}
                                     </Toolbar.ToolbarLink>
                                     <Toolbar.Separator className="mx-2.5 w-px bg-white max-lg:hidden" />
-                                    <Toolbar.Button onClick={()=> {actionHandler('openNewWindow')}} className="bg-neutral-400 hover:bg-indigo-300 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded px-[5px] text-[13px] leading-none outline-none first:ml-0 data-[state=on]:bg-red-500 data-[state=on]:text-green-500 [&>*]:w-[20px] [&>*]:h-[20px]"><OpenInNewWindowIcon /></Toolbar.Button>
+                                    <Toolbar.Button onClick={()=> {actionHandler('openNewWindow', '', {title: name})}} className="bg-neutral-400 hover:bg-indigo-300 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded px-[5px] text-[13px] leading-none outline-none first:ml-0 data-[state=on]:bg-red-500 data-[state=on]:text-green-500 [&>*]:w-[20px] [&>*]:h-[20px]"><OpenInNewWindowIcon /></Toolbar.Button>
                                     <Toolbar.Button onClick={()=> {actionHandler('openFullScreen')}} className="bg-neutral-400 hover:bg-indigo-300 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded px-[5px] text-[13px] leading-none outline-none first:ml-0 data-[state=on]:bg-red-500 data-[state=on]:text-green-500 [&>*]:w-[20px] [&>*]:h-[20px]"><EnterFullScreenIcon /></Toolbar.Button>
                                 </Toolbar.Root>
                             </div>
