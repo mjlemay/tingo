@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Window } from '@tauri-apps/api/window';
-import { Webview } from '@tauri-apps/api/webview';
+import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 import {basicProjectType } from '../constants/defaults';
 import TabHeaders from './tabheaders';
 import Modal from './modal';
@@ -80,20 +79,9 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
       const windowCount = deviceWindows.length || 0;
       const windowName =  `${name}_${windowCount}`;
     if (toggle) {
-      console.log(name, toggle);
-      const appWindow = new Window(windowName, {title: options.title});
-      const webview = new Webview(appWindow, 'theUniqueLabel', {
-        ...defaultNewWindowOptions, 
+      const webview = new WebviewWindow('banana', {
         url: 'http://www.google.com'
       });
-      appWindow.once('tauri://created', function () {
-        // window successfully created
-        console.log('tauri://created');
-       });
-       appWindow.once('tauri://error', function (err) {
-        // an error happened creating the window
-        console.log('tauri://error', err);
-       });
        webview.once('tauri://created', function () {
         // window successfully created
         console.log('tauri://created');
