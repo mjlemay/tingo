@@ -8,15 +8,7 @@
   </head>
 
   <body>
-    <div id="banana"></div>
-    <div>Viewer Demo</div>
-    <script>
-      const init = () => {
-        const content = document.getElementById("banana");
-        content.innerHTML = "hello world javascript is working!";
-        console.log('THIS IS A CONSOLE LOG')
-      } 
-      init();
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/viewer.tsx"></script>
   </body>
 </html>
