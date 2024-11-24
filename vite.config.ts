@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -9,6 +10,14 @@ export default defineConfig(async () => ({
   esbuild: {
     supported: {
       'top-level-await': true
+    },
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        viewer: resolve(__dirname, 'viewer.html'),
+      },
     },
   },
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`

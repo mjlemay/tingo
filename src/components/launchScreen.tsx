@@ -29,13 +29,6 @@ interface LaunchScreenProps {
   screenActionHandler?: Function;
 }
 
-const defaultNewWindowOptions = {
-  x: 50,
-  y: 50,
-  width: 400,
-  height: 300
-}
-  
 export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
   const { children, selectedProject } = props;
   const [ selectedModal, setSelectedModal ] = useState('');
@@ -78,9 +71,10 @@ export default function LaunchScreen(props:LaunchScreenProps):JSX.Element {
   const toggleNewWindow = async (name:string, toggle:boolean, options:Record<string, string>) => {
       const windowCount = deviceWindows.length || 0;
       const windowName =  `${name}_${windowCount}`;
+      console.log('options', options);
     if (toggle) {
-      const webview = new WebviewWindow('banana', {
-        url: 'http://www.google.com'
+      const webview = new WebviewWindow('viewer', {
+        url: 'viewer.html'
       });
        webview.once('tauri://created', function () {
         // window successfully created
