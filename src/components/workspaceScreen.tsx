@@ -16,6 +16,7 @@ import {
   PlusCircledIcon,
   Component1Icon
 } from '@radix-ui/react-icons';
+import ArtBoardView from './artBoardView';
 import PlayBookView from './playBookView';
 import { projectData } from '../services/projectService.ts';
 import { ruleData } from '../services/ruleService.ts';
@@ -154,6 +155,9 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
     const workViews = {
       rule: {
         view:  <PlayBookView ruleItem={selectedRule()} actionHandler={handleActions} />
+      },
+      component: {
+        view:  <ArtBoardView artItem={selectedRule()} actionHandler={handleActions} />
       }
     }
     if(workViews[selectedView as keyof typeof string] && workViews[selectedView as keyof typeof string]['view']) {
@@ -226,16 +230,9 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
             <Card>
               <Block title="Components" icon={<Component1Icon />} menu={addBtn}>
                 <ScrollBox height={listItemViewHeight(1)}>
-                  <MenuItem 
-                        key={'dummy_item'}
-                        selected={selectedItem === 'dummy_item'}
-                        label={'main Window'} 
-                        prefix={<Component1Icon />}
-                        handleAction={() => setSelectedItem('dummy_item')}
-                      />
-                  {/* {rules.map(rule => {
+                  {rules.map(rule => {
                     const { name, ruleId } =rule;
-                    const itemKey = `rule_${ruleId}`;
+                    const itemKey = `component_${ruleId}`;
                     return (
                       <MenuItem 
                         key={itemKey}
@@ -245,7 +242,7 @@ export default function WorkspaceScreen(props:WorkspaceScreenProps):JSX.Element 
                         handleAction={() => setSelectedItem(itemKey)}
                       />
                     )}
-                  )} */}
+                  )}
                 </ScrollBox>
               </Block>
             </Card>

@@ -4,11 +4,11 @@ import {
     CodeIcon,
     EnterIcon,
     Pencil1Icon,
-    EraserIcon,
     ExitIcon
 } from '@radix-ui/react-icons'
 import RuleIcon from '../svg/ruleIcon';
 import Block from './block';
+import Card from './card';
 import ColumnLayout from './columnLayout';
 import FlowGraph from './flowGraph';
 import ToolbarMenu from './toolbarMenu';
@@ -17,15 +17,18 @@ import { string } from 'zod';
 import MoreMenuButton from './moreMenuButton';
 
 
-interface PlayBookViewProps {
+interface ArtBoardViewProps {
     children?: React.ReactNode;
-    ruleItem: basicRuleType;
+    artItem: basicRuleType;
     actionHandler?: Function;
   }
 
-export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
-    const { actionHandler, children, ruleItem = {jsonBody: '', ruleId: -1, name: '', description: ''} } = props;
-    const { jsonBody, ruleId , name, description } = ruleItem;
+const tempJSONBody = 
+'{"nodes":[],"edges":[]}';
+
+export default function ArtBoardView(props:ArtBoardViewProps):JSX.Element {
+    const { actionHandler, children, artItem = {jsonBody: tempJSONBody, ruleId: -1, name: '', description: ''} } = props;
+    const { jsonBody, ruleId , name, description } = artItem;
     const [command, setCommand] = useState('');
     const [lastFlow, setLastFlow] = useState('');
     const [commandCount, setCommandCount] = useState(0);
@@ -62,11 +65,6 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
             label: 'Rename',
             icon: <Pencil1Icon />,
             clickHandler: () => moreMenuHandler('openModal', 'editRule', ruleId)
-        },
-        {
-            label: 'Delete',
-            icon: <EraserIcon />,
-            clickHandler: () => moreMenuHandler('delete', 'rule', ruleId),
         }
     ]
 
@@ -86,8 +84,6 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
         ruleId !== -1 && setCommand(`setFlow_${ruleId}`);
     }, [ruleId]);
 
-    console.log('jsonBody', jsonBody);
-
     return (
         <>
             <ColumnLayout>
@@ -100,22 +96,31 @@ export default function PlayBookView(props:PlayBookViewProps):JSX.Element {
                     icon={<RuleIcon />}
                     menu={<MoreMenuButton menuItems={ProjectMenuItems} />}
                     >
-                    <div
-                        className="m-0 p-0 overflow-auto h-full flex-start relative"
-                    >
-                        <ReactFlowProvider>
-                            <FlowGraph
-                                latestCommand={command}
-                                initialNodes={parseJsonBody('nodes')}
-                                initialEdges={parseJsonBody('edges')}
-                                handleChange={flowUpdateHandler}
-                            />
-                        </ReactFlowProvider>
-                        <ToolbarMenu
-                            label='Rules Menu'
-                            menuHandler={menuHandler}
-                            toolbarMenuItems={toolbarMenuItems}
-                        />
+                    <div className="flex items-stretch flex-row min-h-full">
+                        <div className="grow">
+                            <div
+                                className="m-0 p-0 min-h-full overflow-auto h-full grow relative"
+                            >
+                                <ReactFlowProvider>
+                                    <FlowGraph
+                                        latestCommand={command}
+                                        initialNodes={parseJsonBody('nodes')}
+                                        initialEdges={parseJsonBody('edges')}
+                                        handleChange={flowUpdateHandler}
+                                    />
+                                </ReactFlowProvider>
+                                <ToolbarMenu
+                                    label='Component Menu'
+                                    menuHandler={menuHandler}
+                                    toolbarMenuItems={toolbarMenuItems}
+                                />
+                            </div>
+                        </div>
+                        <div data-name="sidebar" className="min-w-[250px] min-h-full">
+                            <Card>
+                                <p>Wake me up plz</p>
+                            </Card>
+                        </div>
                     </div>
                 </Block>
             </ColumnLayout>
